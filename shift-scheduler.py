@@ -1,33 +1,25 @@
 import random
 
-# Les noms des employés
-employees = ["Alice", "Bob", "Charlie", "David", "Emily"]
+# Définition des employés
+employes = ['Alice', 'Bob', 'Charlie', 'David', 'Eve']
 
-# Les jours de la semaine
-days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"]
+# Initialisation des horaires de travail
+horaires = {employe: [0, 0, 0, 0, 0] for employe in employes}
 
-# Les plages horaires
-shifts = ["Matin", "Matin", "Après-midi", "Après-midi", "Après-midi"]
+# Boucle de planification
+for jour in range(5):
+    # Sélection de deux employés pour le shift du matin
+    matin = random.sample(employes, 2)
+    for employe in matin:
+        horaires[employe][jour] = 1
+    
+    # Sélection de trois employés pour le shift de l'après-midi
+    apres_midi = list(set(employes) - set(matin))
+    apres_midi = random.sample(apres_midi, 3)
+    for employe in apres_midi:
+        horaires[employe][jour] = 2
 
-# Initialise le calendrier à vide
-schedule = {day: {shift: None for shift in shifts} for day in days}
-
-# Assigne les plages horaires pour chaque jour de la semaine
-for day in days:
-    # Copie la liste des employés pour la journée
-    day_employees = employees.copy()
-    # Assigne les plages horaires pour la journée
-    for shift in shifts:
-        # Choisi un employé aléatoirement pour le shift
-        employee = random.choice(day_employees)
-        # Retire l'employé de la liste pour le shift suivant
-        day_employees.remove(employee)
-        # Assigne l'employé pour la plage horaire
-        schedule[day][shift] = employee
-
-# Affiche le calendrier
-for day in days:
-    print(day)
-    print("Matin:", schedule[day]["Matin"], "Après-midi:", schedule[day]["Après-midi"])
-    print()
-
+# Vérification des horaires de travail
+for employe in employes:
+    if horaires[employe].count(1) != 2 or horaires[employe].count(2) != 3:
+        print(f"L'employé {employe} n'a pas les bonnes heures de travail.")
