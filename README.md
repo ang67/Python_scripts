@@ -1,6 +1,14 @@
-Voici une chaine: « toto      []       []         [list watch get] »
-Ecrire une command bash qui suprime ‘[]’ et trie les éléments dans [list watch get] 
+chaine="toto ; list watch get"
 
-Je ne veux pas que le trie s’applique sur ‘[‘ et ‘]’ mais je veux les avoir à la fin
+chaine_triee=$(echo "$chaine" | awk -F';' '{
+  gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2);  # Supprime les espaces autour de la deuxième colonne
+  split($2, elements, /[[:space:]]+/);         # Divise la deuxième colonne en éléments
+  n = asort(elements);                        # Trie les éléments
+  $2 = "";                                    # Efface la deuxième colonne d'origine
+  for (i = 1; i <= n; i++) {
+    $2 = $2 elements[i] " ";                  # Reconstruit la deuxième colonne triée
+  }
+  print $0;
+}')
 
-Utiliser awk
+echo "$chaine_triee"
