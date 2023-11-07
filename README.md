@@ -1,3 +1,4 @@
+```shell
 chaine="toto ; list watch get"
 
 chaine_triee=$(echo "$chaine" | awk -F';' '{
@@ -12,3 +13,4 @@ chaine_triee=$(echo "$chaine" | awk -F';' '{
 }')
 
 echo "$chaine_triee"
+```
